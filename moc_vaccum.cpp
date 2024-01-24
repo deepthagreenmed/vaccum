@@ -23,7 +23,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Vaccum_t {
     QByteArrayData data[3];
-    char stringdata0[19];
+    char stringdata0[18];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -33,11 +33,11 @@ struct qt_meta_stringdata_Vaccum_t {
 static const qt_meta_stringdata_Vaccum_t qt_meta_stringdata_Vaccum = {
     {
 QT_MOC_LITERAL(0, 0, 6), // "Vaccum"
-QT_MOC_LITERAL(1, 7, 10), // "updatePlot"
-QT_MOC_LITERAL(2, 18, 0) // ""
+QT_MOC_LITERAL(1, 7, 9), // "stabilize"
+QT_MOC_LITERAL(2, 17, 0) // ""
 
     },
-    "Vaccum\0updatePlot\0"
+    "Vaccum\0stabilize\0"
 };
 #undef QT_MOC_LITERAL
 
@@ -58,7 +58,7 @@ static const uint qt_meta_data_Vaccum[] = {
        1,    0,   19,    2, 0x08 /* Private */,
 
  // slots: parameters
-    QMetaType::Void,
+    QMetaType::Float,
 
        0        // eod
 };
@@ -69,11 +69,11 @@ void Vaccum::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         auto *_t = static_cast<Vaccum *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->updatePlot(); break;
+        case 0: { float _r = _t->stabilize();
+            if (_a[0]) *reinterpret_cast< float*>(_a[0]) = std::move(_r); }  break;
         default: ;
         }
     }
-    (void)_a;
 }
 
 QT_INIT_METAOBJECT const QMetaObject Vaccum::staticMetaObject = { {

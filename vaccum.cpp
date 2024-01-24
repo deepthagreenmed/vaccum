@@ -16,7 +16,10 @@
 Vaccum::Vaccum()
 {
     initSPI();
-    stabilize();
+
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(stabilize()));
+    timer->start(30); // milliseconds
 }
 
 void Vaccum::initSPI()
@@ -42,20 +45,25 @@ Vaccum::~Vaccum()
 float Vaccum::stabilize()
 {
     int sum = 0;
-    for(int i=0; i<1000; i++)
+    for(int i=0; i<10; i++)
     {
-        sum += (int)convert();
+        sum += (int)convert(0xD7);
     }
-    qDebug()<<"Vaccum"<<sum/1000;
-    return sum/1000;
+  // qDebug()<<"Vaccum"<<sum/10.0;
+    return sum;
 
 }
 
-float Vaccum::convert()
+float Vaccum::convert(uint8_t channel)
 {
-    uint8_t tx[2] = {0xD7, 0x00};
+    uint8_t tx[2];
+    tx[0]=channel;
+    tx[1]=0x00;
+//    qDebug()<<tx[0]<<tx[1];
+
+//    uint8_t tx[2]={0xD7,0x00};
     uint8_t rx[2] = {0x00, 0x00};
-    int sample = 0;
+    uint16_t sample = 0;
     uint16_t delay = 0;
     uint8_t bits = 8;
     uint32_t speed = 1000000;
@@ -71,13 +79,14 @@ float Vaccum::convert()
 
     /* send the cmd to start the conversion and read the result */
     ioctl(spi_fd, SPI_IOC_MESSAGE(1), &tr);
-    //qDebug()<<rx[0]<<rx[1];
-
-    rx[1] = 0xF8;
-    rx[0] = 0xFF;
-    sample = (uint16_t)((rx[1] & 0x0F) << 8) | rx[0];
+    qDebug()<<rx[0]<<rx[1];
+//    rx[1] = 0x1F;
+//    rx[0] = 0xFF;
+    //sample =  rx[0] | (uint16_t)((rx[1] << 8) & 0x0fff) ;
     //float pressure = 1.0 * ((sample - OUTPUT_MIN) * (PRESSURE_MAX - PRESSURE_MIN) / (OUTPUT_MAX - OUTPUT_MIN) + PRESSURE_MIN);
-    //qDebug()<<sample;
+
+
+ //   qDebug()<<sample;
     //qDebug()<<pressure;
     return sample;
 }
