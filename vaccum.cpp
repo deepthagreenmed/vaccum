@@ -105,7 +105,9 @@ float Vaccum::convert()
     ioctl(spi_fd, SPI_IOC_MESSAGE(1), &tr);
     //qDebug()<<rx[0]<<rx[1];
 
-    sample = (uint16_t)(((rx[1] & 0xF0) << 4) | rx[0]);
+    rx[1] = 0x10;
+    rx[0] = 0x00;
+    sample = (uint16_t)((rx[1] & 0x0F) | rx[0]);
     //float pressure = 1.0 * ((sample - OUTPUT_MIN) * (PRESSURE_MAX - PRESSURE_MIN) / (OUTPUT_MAX - OUTPUT_MIN) + PRESSURE_MIN);
     //qDebug()<<sample;
     //qDebug()<<pressure;
