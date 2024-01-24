@@ -13,8 +13,16 @@
 #include <linux/spi/spidev.h>
 #include <vector>
 #include <iostream>
-Vaccum::Vaccum() {
+Vaccum::Vaccum()
+{
+    initSPI();
+    stabilize();
+}
+
+void Vaccum::initSPI()
+{
     spi_fd = open("/dev/spidev2.0", O_RDWR);
+
     int mode;
     int bits = 8;
     int speed = 1000000;
@@ -24,8 +32,6 @@ Vaccum::Vaccum() {
     ioctl(spi_fd, SPI_IOC_RD_BITS_PER_WORD, &bits);
     ioctl(spi_fd, SPI_IOC_WR_MAX_SPEED_HZ, &speed);
     ioctl(spi_fd, SPI_IOC_RD_MAX_SPEED_HZ, &speed);
-
-    stabilize();
 }
 
 Vaccum::~Vaccum()
@@ -67,7 +73,7 @@ float Vaccum::convert()
     ioctl(spi_fd, SPI_IOC_MESSAGE(1), &tr);
     //qDebug()<<rx[0]<<rx[1];
 
-    rx[1] = 0x1F;
+    rx[1] = 0xF8;
     rx[0] = 0xFF;
     sample = (uint16_t)((rx[1] & 0x0F) << 8) | rx[0];
     //float pressure = 1.0 * ((sample - OUTPUT_MIN) * (PRESSURE_MAX - PRESSURE_MIN) / (OUTPUT_MAX - OUTPUT_MIN) + PRESSURE_MIN);

@@ -15,6 +15,7 @@ public:
     ~Vaccum();
     float convert();
     float stabilize();
+    void initSPI();
 
 private:
     int spi_fd;
