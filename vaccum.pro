@@ -4,10 +4,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
 
-#CONFIG += qwt
-INCLUDEPATH += "/usr/local/qwt-6.2.0-zynq/include"
-#LD_LIBRARYPATH ="/usr/local/qwt-6.2.0-zynq/lib"
-LIBS += -L/usr/local/qwt-6.2.0-zynq/lib -lqwt
+#INCLUDEPATH += "/usr/local/qwt-6.2.0-zynq/include"
+#LIBS += -L/usr/local/qwt-6.2.0-zynq/lib -lqwt
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -34,5 +32,4 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /home
 !isEmpty(target.path): INSTALLS += target
 
-#INCLUDEPATH += /usr/local/qwt-6.2.0-zynq/include
-DEPENDPATH += /usr/local/qwt-6.2.0-zynq/include
+#DEPENDPATH += /usr/local/qwt-6.2.0-zynq/include
